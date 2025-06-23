@@ -1,7 +1,7 @@
 import { getState, setState, saveData } from "./storage-manager.js";
 import { renderUI } from "./ui-components.js";
 
-const defaultLists = [
+export const defaultLists = [
   { id: "1", name: "Tarefas Domésticas", icon: "home" },
   { id: "2", name: "Trabalho", icon: "work" },
   { id: "3", name: "Estudos", icon: "school" },

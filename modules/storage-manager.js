@@ -1,15 +1,5 @@
-import { defaultTasks } from "./task-operations.js"; // Adicione esta linha no topo
-
-export function initialize() {
-  if (!localStorage.getItem("taskMasterLists")) {
-    localStorage.setItem("taskMasterLists", JSON.stringify([]));
-  }
-  if (!localStorage.getItem("taskMasterTasks")) {
-    // Carrega as tarefas padrão se não existirem tarefas
-    localStorage.setItem("taskMasterTasks", JSON.stringify(defaultTasks));
-    state.tasks = defaultTasks; // Atualiza o estado também
-  }
-}
+import { defaultLists } from "./task-lists.js";
+import { defaultTasks } from "./task-operations.js";
 
 let state = {
   lists: [],
@@ -33,10 +23,21 @@ export function saveData() {
 }
 
 export function initialize() {
-  if (!localStorage.getItem("taskMasterLists")) {
-    localStorage.setItem("taskMasterLists", JSON.stringify([]));
+  // Inicializa listas
+  const savedLists = localStorage.getItem("taskMasterLists");
+  if (savedLists) {
+    state.lists = JSON.parse(savedLists);
+  } else {
+    state.lists = defaultLists;
+    localStorage.setItem("taskMasterLists", JSON.stringify(defaultLists));
   }
-  if (!localStorage.getItem("taskMasterTasks")) {
-    localStorage.setItem("taskMasterTasks", JSON.stringify([]));
+
+  // Inicializa tarefas
+  const savedTasks = localStorage.getItem("taskMasterTasks");
+  if (savedTasks) {
+    state.tasks = JSON.parse(savedTasks);
+  } else {
+    state.tasks = defaultTasks;
+    localStorage.setItem("taskMasterTasks", JSON.stringify(defaultTasks));
   }
 }

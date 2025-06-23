@@ -10,12 +10,12 @@ export const defaultLists = [
 ];
 
 export function initLists() {
-  loadData();
   setupListEventListeners();
   // Seleciona a primeira lista automaticamente
   if (getState("lists").length > 0 && !getState("currentListId")) {
     setCurrentList(getState("lists")[0].id);
   }
+  renderUI();
 }
 
 function loadData() {

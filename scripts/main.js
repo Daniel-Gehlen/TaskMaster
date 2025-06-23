@@ -1,19 +1,18 @@
-import { initialize } from "../modules/storage-manager.js";
-import { initTaskManager } from "../modules/task-manager.js";
-import { initTaskOperations } from "../modules/task-operations.js";
-import { initLists } from "../modules/task-lists.js";
+import { initialize } from "/modules/storage-manager.js";
+import { initTaskManager } from "/modules/task-manager.js";
+import { initLists } from "/modules/task-lists.js";
 
 async function initApp() {
   try {
-    await initialize();
-    initLists(); // Inicializa as listas (incluindo as padrão)
-    initTaskOperations(); // Garante que as tarefas padrão são carregadas
-    initTaskManager();
+    await initialize(); // Garante que os dados estão carregados
+    initLists(); // Inicializa as listas
+    initTaskManager(); // Inicializa o gerenciador de tarefas
+
+    // Força uma renderização completa
+    const renderUI = (await import("/modules/ui-components.js")).renderUI;
+    renderUI();
   } catch (error) {
-    console.error("Falha na inicialização:", error);
-    alert(
-      "O aplicativo encontrou um erro ao carregar. Por favor, recarregue a página."
-    );
+    console.error("Initialization error:", error);
   }
 }
 

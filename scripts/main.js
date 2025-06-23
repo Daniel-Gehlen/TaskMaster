@@ -1,19 +1,13 @@
-import { initialize } from "/modules/storage-manager.js";
-import { initTaskManager } from "/modules/task-manager.js";
-import { initLists } from "/modules/task-lists.js";
+import { StorageManager } from '../modules/storage-manager.js';
+import { PriorityCalculator } from '../modules/priority-calculator.js';
+import { OrderManager } from '../modules/order-manager.js';
+import { UIManager } from '../modules/ui-manager.js';
 
-async function initApp() {
-  try {
-    await initialize(); // Garante que os dados estão carregados
-    initLists(); // Inicializa as listas
-    initTaskManager(); // Inicializa o gerenciador de tarefas
+document.addEventListener('DOMContentLoaded', () => {
+    const storageManager = new StorageManager();
+    const priorityCalculator = new PriorityCalculator();
+    const orderManager = new OrderManager(storageManager, priorityCalculator);
+    const uiManager = new UIManager(orderManager, priorityCalculator);
 
-    // Força uma renderização completa
-    const renderUI = (await import("/modules/ui-components.js")).renderUI;
-    renderUI();
-  } catch (error) {
-    console.error("Initialization error:", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", initApp);
+    uiManager.init();
+});

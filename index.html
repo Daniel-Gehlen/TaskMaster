@@ -3,146 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:,">
-    <title>TaskMaster - Gerenciador de Tarefas</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Material+Icons&display=swap"
-      rel="stylesheet"
-    />
+    <title>Gerenciador de Pedidos - Delivery</title>
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <header>
-      <div class="container header-content">
-        <div class="logo">
-          <i class="material-icons">check_circle</i>
-          <span>TaskMaster</span>
-        </div>
-        <div class="auth-buttons">
-          <button id="signInButton">
-            <i class="material-icons">account_circle</i>
-            Entrar
-          </button>
-        </div>
-      </div>
-    </header>
-
     <div class="container">
-      <div class="main-content">
-        <div class="sidebar">
-          <div class="task-lists">
-            <h3>Minhas Listas</h3>
-            <ul id="listsContainer"></ul>
-            <div class="add-list">
-              <input type="text" id="newListName" placeholder="Nova lista" />
-              <button id="addListButton">
-                <i class="material-icons">add</i>
-              </button>
-            </div>
-          </div>
-        </div>
+      <header>
+        <h1>Gerenciador de Pedidos</h1>
+        <p>Priorize pedidos de delivery com eficiência</p>
+      </header>
 
-        <div class="task-view">
-          <div class="task-header">
-            <h2 id="currentListName">Tarefas</h2>
-            <div class="task-actions">
-              <button id="addTaskButton">
-                <i class="material-icons">add</i>
-                Adicionar Tarefa
-              </button>
-            </div>
+      <div class="add-order-form">
+        <h2>Adicionar Novo Pedido</h2>
+        <form id="newOrderForm">
+          <div class="form-group">
+            <label for="clientName">Nome do Cliente</label>
+            <input type="text" id="clientName" required />
           </div>
 
-          <div class="priority-filter">
-            <select id="priorityFilter">
-              <option value="all">Todas as prioridades</option>
-              <option value="1">Prioridade Máxima</option>
-              <option value="2">Alta Prioridade</option>
-              <option value="3">Prioridade Média</option>
-              <option value="4">Baixa Prioridade</option>
+          <div class="form-group">
+            <label for="orderItems">Itens do Pedido</label>
+            <input type="text" id="orderItems" required />
+          </div>
+
+          <div class="form-group">
+            <label for="deliveryAddress">Endereço de Entrega</label>
+            <input type="text" id="deliveryAddress" required />
+          </div>
+
+          <div class="form-group">
+            <label for="distance">Distância (km)</label>
+            <input type="number" id="distance" min="0" step="0.1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="preparationTime">Tempo de Preparo (min)</label>
+            <input type="number" id="preparationTime" min="0" required />
+          </div>
+
+          <div class="form-group">
+            <label for="priority">Prioridade</label>
+            <select id="priority" required>
+              <option value="high">Alta</option>
+              <option value="medium" selected>Média</option>
+              <option value="low">Baixa</option>
             </select>
           </div>
 
-          <ul class="task-list" id="tasksContainer"></ul>
+          <button type="submit">Adicionar Pedido</button>
+        </form>
+      </div>
 
-          <div class="add-task-form" id="taskForm" style="display: none">
-            <h3>Adicionar Nova Tarefa</h3>
-            <div class="form-group">
-              <label for="taskTitle">Título</label>
-              <input
-                type="text"
-                id="taskTitle"
-                placeholder="Título da tarefa"
-              />
-            </div>
-            <div class="form-group">
-              <label for="taskDescription">Descrição (opcional)</label>
-              <textarea
-                id="taskDescription"
-                placeholder="Descrição detalhada da tarefa"
-              ></textarea>
-            </div>
-            <div class="form-group">
-              <label for="taskPriority">Prioridade</label>
-              <select id="taskPriority">
-                <option value="1">Prioridade Máxima</option>
-                <option value="2">Alta Prioridade</option>
-                <option value="3">Prioridade Média</option>
-                <option value="4">Baixa Prioridade</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="taskDueDate">Data de Vencimento (opcional)</label>
-              <input type="date" id="taskDueDate" />
-            </div>
-            <div class="form-actions">
-              <button class="btn-secondary" id="cancelTaskButton">
-                Cancelar
-              </button>
-              <button class="btn-primary" id="saveTaskButton">
-                Salvar Tarefa
-              </button>
-            </div>
-          </div>
+      <div class="controls">
+        <h2>Pedidos</h2>
+        <div class="filter-buttons">
+          <button id="filterAll" class="active">Todos</button>
+          <button id="filterPending">Pendentes</button>
+          <button id="filterPreparing">Preparando</button>
+          <button id="filterDelivered">Entregues</button>
         </div>
       </div>
-    </div>
 
-    <div class="modal" id="calendarModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Adicionar ao Google Calendar</h3>
-          <button id="closeCalendarModal">&times;</button>
-        </div>
-        <div class="form-group">
-          <label for="calendarTitle">Título do Evento</label>
-          <input type="text" id="calendarTitle" />
-        </div>
-        <div class="form-group">
-          <label for="calendarStart">Data/Hora de Início</label>
-          <input type="datetime-local" id="calendarStart" />
-        </div>
-        <div class="form-group">
-          <label for="calendarEnd">Data/Hora de Término</label>
-          <input type="datetime-local" id="calendarEnd" />
-        </div>
-        <div class="form-group">
-          <label for="calendarDescription">Descrição (opcional)</label>
-          <textarea id="calendarDescription"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn-secondary" id="cancelCalendarButton">
-            Cancelar
-          </button>
-          <button class="btn-primary" id="addToCalendarButton">
-            Adicionar ao Calendar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">
-      <p>TaskMaster &copy; 2025 - Sistema de Gerenciamento de Tarefas</p>
+      <div class="orders-list" id="ordersList"></div>
     </div>
 
     <script type="module" src="scripts/main.js"></script>

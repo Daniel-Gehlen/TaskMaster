@@ -2,7 +2,7 @@ import { getState, setState, saveData } from "./storage-manager.js";
 import { renderUI } from "./ui-components.js";
 import { getPriorityText } from "./priority-manager.js";
 
-const defaultTasks = [
+export const defaultTasks = [
   {
     id: "1",
     listId: "1",
